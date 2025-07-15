@@ -7,6 +7,20 @@ pipeline {
         
     }
 
+stages {
+    stage('Setup Node.js 18') {
+      steps {
+        sh '''
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          node -v
+        '''
+      }
+    }
+
+
+    
+
     stages {
         stage('Compile and Run Sonar Analysis') {
             steps {
