@@ -9,13 +9,17 @@ pipeline {
     stages {
         stage('Check Node Version') {
             steps {
-                sh 'node -v'
+                withEnv(["PATH+NODE=${tool 'Node_18'}/bin"]) {
+                    sh 'node -v'
+                }
             }
         }
 
         stage('Compile and Run Sonar Analysis') {
             steps {
-                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jenkinsdevsecops -Dsonar.organization=jenkinsdevsecops -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=b0214368e7e75db3056b89c7a9e5f9d3678263b0'
+                withEnv(["PATH+NODE=${tool 'Node_18'}/bin"]) {
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jenkinsdevsecops -Dsonar.organization=jenkinsdevsecops -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=b0214368e7e75db3056b89c7a9e5f9d3678263b0'
+                }
             }
         }
 
@@ -48,3 +52,4 @@ pipeline {
         }
     }
 }
+
