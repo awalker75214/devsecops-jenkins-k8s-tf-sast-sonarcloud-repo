@@ -7,19 +7,15 @@ pipeline {
     }
 
     stages {
-        stage('Setup Node.js 18') {
+        stage('Check Node Version') {
             steps {
-                sh '''
-                    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-                    apt-get install -y nodejs
-                    node -v
-                '''
+                sh 'node -v'
             }
         }
 
         stage('Compile and Run Sonar Analysis') {
             steps {
-                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jenkinsdevsecops -Dsonar.organization=jenkinsdevsecops -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=2f46609dbdc08ab6eaa038be3a898e8015803b47'
+                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jenkinsdevsecops -Dsonar.organization=jenkinsdevsecops -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=YOUR_TOKEN'
             }
         }
 
@@ -52,4 +48,3 @@ pipeline {
         }
     }
 }
-
